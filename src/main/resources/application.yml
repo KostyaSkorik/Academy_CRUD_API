@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: Academy_CRUD_API
+  datasource:
+    username: postgres
+    password: root
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=academy
+  jpa:
+    properties:
+      hibernate:
+        default_schema: academy
+        format_sql: true
+        show_sql: true
+
+
