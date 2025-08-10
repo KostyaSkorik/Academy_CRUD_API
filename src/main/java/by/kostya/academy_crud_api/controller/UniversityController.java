@@ -59,6 +59,13 @@ public class UniversityController {
         return ResponseEntity.created(location).body(universityReadDto);
     }
 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        return universityService.deleteUniversity(id) ?
+                ResponseEntity.noContent().build() :
+                ResponseEntity.notFound().header("error","University not found or have students").build();
+    }
+
 
 
 }

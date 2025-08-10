@@ -43,4 +43,16 @@ public class UniversityService {
         university.setName(universityCreateDto.getName());
         return universityMapper.fromUniToReadDto(universityRepository.saveAndFlush(university));
     }
+
+    @Transactional
+    public boolean deleteUniversity(Long id){
+        return universityRepository.findById(id).
+                map(entity -> {
+                    if(entity.getStudents().isEmpty()){
+                        universityRepository.deleteById(id);
+                        universityRepository.flush();
+                        return true;
+                    }else return false;
+                }).orElse(false);
+    }
 }
