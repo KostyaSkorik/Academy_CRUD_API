@@ -49,7 +49,7 @@ public class UniversityController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UniversityReadDto> update(@PathVariable Long id, @RequestBody UniversityCreateDto universityCreateDto){
+    public ResponseEntity<UniversityReadDto> update(@PathVariable Long id, @Valid @RequestBody UniversityCreateDto universityCreateDto){
         UniversityReadDto universityReadDto = universityService.updateUniversity(id,universityCreateDto);
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
