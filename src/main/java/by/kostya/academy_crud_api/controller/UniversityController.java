@@ -7,7 +7,6 @@ import by.kostya.academy_crud_api.service.UniversityService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -48,6 +47,18 @@ public class UniversityController {
                 .toUri();
         return ResponseEntity.created(location).body(universityReadDto);
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<UniversityReadDto> update(@PathVariable Long id, @RequestBody UniversityCreateDto universityCreateDto){
+        UniversityReadDto universityReadDto = universityService.updateUniversity(id,universityCreateDto);
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(universityReadDto.getId())
+                .toUri();
+        return ResponseEntity.created(location).body(universityReadDto);
+    }
+
 
 
 }

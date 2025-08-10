@@ -11,6 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -33,6 +35,12 @@ public class UniversityService {
         University university = universityMapper.fromCreatDtoToUni(universityCreateDto);
         University universityCreated = universityRepository.save(university);
         return universityMapper.fromUniToReadDto(universityCreated);
+    }
 
+    @Transactional
+    public UniversityReadDto updateUniversity(Long id,UniversityCreateDto universityCreateDto){
+        University university = universityRepository.findById(id).orElse(new University());
+        university.setName(universityCreateDto.getName());
+        return universityMapper.fromUniToReadDto(universityRepository.saveAndFlush(university));
     }
 }
