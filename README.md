@@ -44,7 +44,7 @@
 - `POST   /api/universities` — создать университет
 - `PUT    /api/universities/{id}` — обновить университет
 - `DELETE /api/universities/{id}` — удалить университет
-- `GET    /api/universities/{id}/students?page=0&size=10` — получить студентов университета
+- `GET    /api/universities/{id}/students` — получить студентов университета
 
 ### Student
 

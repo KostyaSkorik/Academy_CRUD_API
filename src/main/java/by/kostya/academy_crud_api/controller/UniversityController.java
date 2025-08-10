@@ -1,6 +1,7 @@
 package by.kostya.academy_crud_api.controller;
 
 
+import by.kostya.academy_crud_api.dto.student.StudentReadDto;
 import by.kostya.academy_crud_api.dto.university.UniversityCreateDto;
 import by.kostya.academy_crud_api.dto.university.UniversityReadDto;
 import by.kostya.academy_crud_api.service.UniversityService;
@@ -64,6 +65,12 @@ public class UniversityController {
         return universityService.deleteUniversity(id) ?
                 ResponseEntity.noContent().build() :
                 ResponseEntity.notFound().header("error","University not found or have students").build();
+    }
+
+    @GetMapping("{id}/students")
+    public ResponseEntity<List<StudentReadDto>> findStudentsByUniversityId(@PathVariable Long id){
+        return universityService.findStudentsByUniversityId(id)==null ? ResponseEntity.notFound().build()
+                : ResponseEntity.ok(universityService.findStudentsByUniversityId(id));
     }
 
 

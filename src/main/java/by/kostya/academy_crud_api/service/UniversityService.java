@@ -3,8 +3,10 @@ package by.kostya.academy_crud_api.service;
 
 import by.kostya.academy_crud_api.database.entity.University;
 import by.kostya.academy_crud_api.database.repository.UniversityRepository;
+import by.kostya.academy_crud_api.dto.student.StudentReadDto;
 import by.kostya.academy_crud_api.dto.university.UniversityCreateDto;
 import by.kostya.academy_crud_api.dto.university.UniversityReadDto;
+import by.kostya.academy_crud_api.mapper.StudentListMapper;
 import by.kostya.academy_crud_api.mapper.UniversityMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -20,6 +22,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class UniversityService {
     private final UniversityMapper universityMapper;
+    private final StudentListMapper studentListMapper;
     private final UniversityRepository universityRepository;
 
     public List<UniversityReadDto> findAll(Pageable pageable){
@@ -54,5 +57,11 @@ public class UniversityService {
                         return true;
                     }else return false;
                 }).orElse(false);
+    }
+
+    public List<StudentReadDto> findStudentsByUniversityId(Long id){
+        return universityRepository.findById(id)
+                .map(entity -> studentListMapper.studentListToListDto(entity.getStudents()))
+                .orElse(null);
     }
 }
