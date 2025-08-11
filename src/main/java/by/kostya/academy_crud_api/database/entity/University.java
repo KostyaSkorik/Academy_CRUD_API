@@ -1,6 +1,7 @@
 package by.kostya.academy_crud_api.database.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,5 +25,6 @@ public class University {
     private String name;
 
     @OneToMany(mappedBy = "university")
+    @JsonIgnore
     private List<Student> students;
 }
