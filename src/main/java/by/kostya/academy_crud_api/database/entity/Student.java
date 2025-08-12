@@ -3,6 +3,7 @@ package by.kostya.academy_crud_api.database.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.List;
 
@@ -30,5 +31,6 @@ public class Student {
 
 
     @ManyToMany(mappedBy = "students")
+    @BatchSize(size = 5)
     private List<Course> courses;
 }

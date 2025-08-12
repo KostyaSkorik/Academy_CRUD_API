@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.BatchSize;
 
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class University {
 
     private String name;
 
-    @OneToMany(mappedBy = "university")
+    @OneToMany(mappedBy = "university",fetch = FetchType.LAZY)
+    @BatchSize(size = 5)
     @JsonIgnore
     private List<Student> students;
 }
