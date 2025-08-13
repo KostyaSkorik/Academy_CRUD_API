@@ -1,15 +1,14 @@
 package by.kostya.academy_crud_api.controller;
 
 
+import by.kostya.academy_crud_api.dto.student.StudentCreateDto;
 import by.kostya.academy_crud_api.dto.student.StudentReadDto;
 import by.kostya.academy_crud_api.service.StudentService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -29,5 +28,14 @@ public class StudentController {
     @GetMapping("/{id}")
     public ResponseEntity<StudentReadDto> findById(@PathVariable Long id){
         return studentService.findById(id).map(ResponseEntity::ok).orElseGet(()->ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<StudentReadDto> create(@RequestBody @Valid StudentCreateDto studentCreateDto){
+        try {
+            return ResponseEntity.of(studentService.create(studentCreateDto));
+        }catch (IllegalArgumentException e){
+           return ResponseEntity.badRequest().header("error", "University not found").build();
+        }
     }
 }
