@@ -7,6 +7,7 @@ import by.kostya.academy_crud_api.service.StudentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,6 +32,7 @@ public class StudentController {
     }
 
     @PostMapping
+    @ResponseStatus(code = HttpStatus.CREATED)
     public ResponseEntity<StudentReadDto> create(@RequestBody @Valid StudentCreateDto studentCreateDto){
         try {
             return ResponseEntity.of(studentService.create(studentCreateDto));
@@ -38,4 +40,15 @@ public class StudentController {
            return ResponseEntity.badRequest().header("error", "University not found").build();
         }
     }
+
+
+    @PutMapping("/{id}")
+    public ResponseEntity<StudentReadDto> update(@PathVariable Long id, @RequestBody @Valid StudentCreateDto studentCreateDto){
+        try {
+            return ResponseEntity.ok(studentService.update(id,studentCreateDto));
+        }catch (IllegalArgumentException e){
+            return ResponseEntity.badRequest().header("error", "University not found").build();
+        }
+    }
+
 }

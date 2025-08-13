@@ -10,6 +10,7 @@ import by.kostya.academy_crud_api.mapper.StudentMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -42,6 +43,25 @@ public class StudentService {
                 })
                 .map(studentRepository::save)
                 .map(studentMapper::studentToDtoWithUni);
+
+    }
+
+    @Transactional
+    public StudentReadDto update(Long id,StudentCreateDto studentCreateDto){
+        Student student = studentRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        if(studentCreateDto.getUniversityName()!=null){
+            University university = universityRepository.findUniversityByName(studentCreateDto.getUniversityName())
+                    .orElseThrow(IllegalArgumentException::new);
+            student.setUniversity(university);
+        }
+        if(studentCreateDto.getFirstName()!=null){
+            student.setFirstName(studentCreateDto.getFirstName());
+        }
+        if(studentCreateDto.getLastName()!=null){
+            student.setLastName(studentCreateDto.getLastName());
+        }
+        return studentMapper.studentToDtoWithUni(studentRepository.save(student));
+
 
     }
 }
