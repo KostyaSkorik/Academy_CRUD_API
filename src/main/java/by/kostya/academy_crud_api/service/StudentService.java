@@ -8,6 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,5 +20,9 @@ public class StudentService {
 
     public List<StudentReadDto> findAllStudents(Pageable pageable){
         return studentRepository.findAll(pageable).get().map(studentMapper::studentToDtoWithUni).toList();
+    }
+
+    public Optional<StudentReadDto> findById(Long id) {
+        return studentRepository.findById(id).map(studentMapper::studentToDtoWithUni);
     }
 }

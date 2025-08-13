@@ -32,5 +32,6 @@ public class Student {
 
     @ManyToMany(mappedBy = "students")
     @BatchSize(size = 5)
+//    @Fetch(FetchMode.SUBSELECT)
     private List<Course> courses;
 }
